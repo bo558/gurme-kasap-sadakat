@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/* Gurme Kasap Burger — renkler logodan, Instagram hikâye görsellerinden ve gurmeburgerkasap.com stil dosyasından ölçüldü.
+   Kırmızı: logodaki "Kasap" (#E30713) · Kömür: logodaki "Gurme / Burger" (#1D1D1B)
+   Krem: şube hikâye görsellerinin zemini (#F4EDE7) · Koyu kırmızı ve altın: web sitesindeki --red-deep / --gold (Özen Kasap mirası).
+   Başlık: Fraunces · Metin: Manrope · El yazısı vurgu: Caveat (üçü de web sitesinin kendi yazı tipleri). */
+@theme {
+  --color-kasap: #e30713;
+  --color-kasap-deep: #9b0a22;
+  --color-kasap-soft: #fbe4e3;
+  --color-gold: #a8823a;
+  --color-gold-soft: #efe5cf;
+  --color-gold-ink: #85662a; /* küçük metin için koyulaştırılmış altın (krem zeminde ≥ 4.5:1) */
+  --color-char: #1d1d1b;
+  --color-char-2: #2b2927;
+  --color-char-line: #44403b;
+  --color-paper: #f4ede7;
+  --color-paper-2: #ebe2d8;
+  --color-line: #ddd0c2;
+  --color-card: #fffcf8;
+  --color-muted: #6b625a;
+  --color-ok: #2f7a45;
+  --color-ok-soft: #e1f0e4;
+  --color-bad: #b3261e;
+  --color-bad-soft: #f9e1dd;
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-script: "Caveat", "Segoe Script", cursive;
+
+  --animate-stamp: stamp 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+  --animate-rise: rise 0.28s ease-out both;
+  --animate-pop: pop 0.4s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+/* Tipografi: dört seviye. Büyük başlık 30 · başlık 20 · metin 15 · küçük 13 (etiketler 11.5, büyük harf) */
+@layer components {
+  .t-display { font-family: var(--font-display); font-weight: 600; font-size: 30px; line-height: 1.08; letter-spacing: -0.015em; font-variation-settings: "opsz" 96; }
+  .t-h1 { font-family: var(--font-display); font-weight: 600; font-size: 20px; line-height: 1.2; letter-spacing: -0.005em; font-variation-settings: "opsz" 36; }
+  .t-label { font-family: var(--font-sans); font-weight: 700; font-size: 11.5px; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.14em; }
+  .t-num { font-family: var(--font-display); font-weight: 600; line-height: 1; font-variant-numeric: lining-nums tabular-nums; font-variation-settings: "opsz" 72; }
+  .t-script { font-family: var(--font-script); font-weight: 600; line-height: 1; }
+}
+
+.font-display, .t-display, .t-h1, .t-num { font-synthesis: none; }
+
+@keyframes stamp {
+  0% { transform: scale(1.9) rotate(-20deg); opacity: 0; }
+  60% { transform: scale(0.94) rotate(var(--r, -6deg)); opacity: 1; }
+  100% { transform: scale(1) rotate(var(--r, -6deg)); opacity: 1; }
+}
+@keyframes rise {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes pop {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes scanline {
+  0% { top: 6%; }
+  50% { top: 90%; }
+  100% { top: 6%; }
+}
+@keyframes shrink { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+:root { --demo-bar: 28px; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  background: var(--color-paper);
+  color: var(--color-char);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+:focus-visible { outline: 2px solid var(--color-kasap); outline-offset: 2px; }
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Kasap kâğıdı dokusu: çok hafif çizgili zemin (Özen Kasap amblemindeki ince çerçeve çizgilerinden) */
+.paper-grain {
+  background-color: var(--color-paper);
+  background-image: repeating-linear-gradient(135deg, color-mix(in srgb, var(--color-char) 2.2%, transparent) 0 1px, transparent 1px 9px);
+}
+/* Kartın iç çift çerçevesi (amblemdeki altın kontur) */
+.heritage-frame { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-gold) 55%, transparent), inset 0 0 0 5px var(--color-card), inset 0 0 0 6px color-mix(in srgb, var(--color-gold) 30%, transparent); }
+/* Fiş kenarı: kart ile ödül şeridi arasında delikli ayırıcı */
+.perforation { background-image: radial-gradient(circle at 6px 50%, var(--color-paper-2) 3px, transparent 3.5px); background-size: 12px 8px; background-repeat: repeat-x; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
